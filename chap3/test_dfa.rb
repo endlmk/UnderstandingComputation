@@ -9,7 +9,7 @@ class TestFARules < Minitest::Test
     rule = FARule.new(1, 'a', 2)
     assert(rule)
     assert_equal(1, rule.state)
-    assert_equal('a', rule.charactor)
+    assert_equal('a', rule.character)
     assert_equal(2, rule.next_state)
   end
 

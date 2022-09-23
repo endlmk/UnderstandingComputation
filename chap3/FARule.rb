@@ -1,6 +1,6 @@
-class FARule < Struct.new(:state, :charactor, :next_state)
-  def applies_to?(state, charactor)
-    self.state == state && self.charactor == charactor
+class FARule < Struct.new(:state, :character, :next_state)
+  def applies_to?(state, character)
+    self.state == state && self.character == character
   end
 
   def follow
@@ -8,6 +8,6 @@ class FARule < Struct.new(:state, :charactor, :next_state)
   end
 
   def inspect
-    "#<FARule #{state.inspect} --#{charactor}--> #{next_state.inspect}"
+    "#<FARule #{state.inspect} --#{character}--> #{next_state.inspect}"
   end
 end

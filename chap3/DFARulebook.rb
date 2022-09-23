@@ -1,11 +1,11 @@
 require_relative('FARule')
 
 class DFARulebook < Struct.new(:rules)
-  def next_state(state, charactor)
-    rule_for(state, charactor).follow
+  def next_state(state, character)
+    rule_for(state, character).follow
   end
 
-  def rule_for(state, charactor)
-    rules.detect { |rule| rule.applies_to?(state, charactor) }
+  def rule_for(state, character)
+    rules.detect { |rule| rule.applies_to?(state, character) }
   end
 end
