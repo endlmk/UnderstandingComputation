@@ -1,6 +1,6 @@
 require_relative 'DFA'
 
-class DFADesign < Struct.new(:current_state, :accept_states, :rulebook)
+DFADesign = Struct.new(:current_state, :accept_states, :rulebook) do
   def to_dfa
     DFA.new(current_state, accept_states, rulebook)
   end

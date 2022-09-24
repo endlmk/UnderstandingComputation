@@ -1,6 +1,6 @@
 require_relative('FARule')
 
-class DFARulebook < Struct.new(:rules)
+DFARulebook = Struct.new(:rules) do
   def next_state(state, character)
     rule_for(state, character).follow
   end

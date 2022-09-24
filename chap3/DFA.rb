@@ -1,6 +1,6 @@
 require_relative 'DFARulebook'
 
-class DFA < Struct.new(:current_state, :accept_states, :rulebook)
+DFA = Struct.new(:current_state, :accept_states, :rulebook) do
   def accepting?
     accept_states.include?(current_state)
   end

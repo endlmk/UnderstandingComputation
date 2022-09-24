@@ -3,10 +3,10 @@ require 'set'
 
 class NFARulebook < Struct.new(:rules)
   def next_states(states, char)
-    states.flat_map do |s|
-      rules.filter do |r|
-        r.state == s && r.character == char
-      end.map(&:next_state)
-    end.to_set
+    states.flat_map { |state| rules_for(state, char) }.to_set
+  end
+
+  def rules_for(state, character)
+    rules.filter_map { |r| r.next_state if r.state == state && r.character == character }
   end
 end
