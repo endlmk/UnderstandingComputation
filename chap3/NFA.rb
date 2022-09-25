@@ -1,6 +1,10 @@
 require_relative 'NFARulebook'
 
-NFA = Struct.new(:current_states, :accept_states, :rulebook) do
+class NFA < Struct.new(:current_states, :accept_states, :rulebook)
+  def current_states
+    rulebook.follow_free_move(super)
+  end
+
   def accepting?
     (current_states & accept_states).any?
   end

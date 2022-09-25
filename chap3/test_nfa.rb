@@ -81,3 +81,37 @@ class NFADesignTest < MiniTest::Test
     assert_equal(false, nfa_design.accepts?('bbabb'))
   end
 end
+
+class NFARulebookFreeMoveTest < MiniTest::Test
+  def setup
+    @rulebook = NFARulebook.new(
+      [
+        FARule.new(1, nil, 2), FARule.new(1, nil, 4),
+        FARule.new(2, 'a', 3),
+        FARule.new(3, 'a', 2),
+        FARule.new(4, 'a', 5),
+        FARule.new(5, 'a', 6),
+        FARule.new(6, 'a', 4),
+      ]
+    )
+  end
+
+  def test_自由移動できる
+    assert_equal(Set[2, 4], @rulebook.next_states(Set[1], nil))
+  end
+
+  def test_自由移動で到達可能な状態を特定できる
+    assert_equal(Set[1, 2, 4], @rulebook.follow_free_move(Set[1]))
+  end
+
+  def test_NFADesignで自由移動に対応できる
+    nfa_design = NFADesign.new(1, [2, 4], @rulebook)
+
+    assert_equal(true, nfa_design.accepts?(''))
+    assert_equal(false, nfa_design.accepts?('a'))
+    assert_equal(true, nfa_design.accepts?('aa'))
+    assert_equal(true, nfa_design.accepts?('aaa'))
+    assert_equal(false, nfa_design.accepts?('aaaaa'))
+    assert_equal(true, nfa_design.accepts?('aaaaaa'))
+  end
+end
