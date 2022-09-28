@@ -37,3 +37,11 @@ class LiteralTest < MiniTest::Test
     assert_equal(false, nfa_design.accepts?('b'))
   end
 end
+
+class ConcatenateTest < MiniTest::Test
+  def test_二つのLiteralを連結できる
+    pattern = Concatenate.new(Literal.new('a'), Literal.new('b'))
+    assert_equal(false, pattern.matches?('a'))
+    assert_equal(true, pattern.matches?('ab'))
+  end
+end
