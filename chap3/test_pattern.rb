@@ -55,3 +55,16 @@ class ChooseTest < MiniTest::Test
     assert_equal(false, pattern.matches?('ab'))
   end
 end
+
+class RepeatTest < MiniTest::Test
+  def test_0回以上の繰り返しにマッチする
+    pattern = Repeat.new(Literal.new('a'))
+    assert_equal(true, pattern.matches?(''))
+    assert_equal(true, pattern.matches?('a'))
+    assert_equal(true, pattern.matches?('aa'))
+    assert_equal(true, pattern.matches?('aaa'))
+    assert_equal(true, pattern.matches?('aaaaaa'))
+    assert_equal(false, pattern.matches?('b'))
+    assert_equal(false, pattern.matches?('aba'))
+  end
+end
