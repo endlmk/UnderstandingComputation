@@ -85,3 +85,22 @@ class RepeatTest < MiniTest::Test
     assert_equal(false, pattern.matches?('aba'))
   end
 end
+
+class ComplexPatternTest < MiniTest::Test
+  def test_複雑なパターンでマッチできる
+    pattern = Repeat.new(
+      Concatenate.new(
+        Literal.new('a'),
+        Choose.new(Empty.new(), Literal.new('b'))
+      )
+    )
+    assert_equal('/(a(|b))*/', pattern.inspect)
+    assert_equal(true, pattern.matches?(''))
+    assert_equal(true, pattern.matches?('a'))
+    assert_equal(true, pattern.matches?('ab'))
+    assert_equal(true, pattern.matches?('aba'))
+    assert_equal(true, pattern.matches?('abab'))
+    assert_equal(true, pattern.matches?('abaab'))
+    assert_equal(false, pattern.matches?('abba'))
+  end
+end
