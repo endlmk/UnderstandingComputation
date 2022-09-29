@@ -45,3 +45,13 @@ class ConcatenateTest < MiniTest::Test
     assert_equal(true, pattern.matches?('ab'))
   end
 end
+
+class ChooseTest < MiniTest::Test
+  def test_二つのLiteralのいずれかにマッチする
+    pattern = Choose.new(Literal.new('a'), Literal.new('b'))
+    assert_equal(true, pattern.matches?('a'))
+    assert_equal(true, pattern.matches?('b'))
+    assert_equal(false, pattern.matches?('c'))
+    assert_equal(false, pattern.matches?('ab'))
+  end
+end
