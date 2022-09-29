@@ -15,10 +15,6 @@ class PatternTest < MiniTest::Test
     )
     assert_equal('/(ab|a)*/', pattern.inspect)
   end
-  def test_文字列でマッチングできる
-    assert_equal(false, Empty.new.matches?('a'))
-    assert_equal(true, Literal.new('a').matches?('a'))
-  end
 end
 
 class EmptyTest < MiniTest::Test
@@ -26,6 +22,11 @@ class EmptyTest < MiniTest::Test
     nfa_design = Empty.new.to_nfa_design
     assert_equal(true, nfa_design.accepts?(''))
     assert_equal(false, nfa_design.accepts?('a'))
+  end
+
+  def test_空文字にマッチする
+    assert_equal(true, Empty.new.matches?(''))
+    assert_equal(false, Empty.new.matches?('a'))
   end
 end
 
@@ -35,6 +36,11 @@ class LiteralTest < MiniTest::Test
     assert_equal(false, nfa_design.accepts?(''))
     assert_equal(true, nfa_design.accepts?('a'))
     assert_equal(false, nfa_design.accepts?('b'))
+  end
+
+  def test_指定文字にマッチする
+    assert_equal(true, Literal.new('a').matches?('a'))
+    assert_equal(false, Literal.new('a').matches?('b'))
   end
 end
 
