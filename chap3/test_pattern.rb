@@ -44,6 +44,17 @@ class ConcatenateTest < MiniTest::Test
     assert_equal(false, pattern.matches?('a'))
     assert_equal(true, pattern.matches?('ab'))
   end
+
+  def test_三つのLiteralを連結できる
+    pattern = Concatenate.new(
+      Literal.new('a'),
+      Concatenate.new(Literal.new('b'), Literal.new('c'))
+    )
+    assert_equal(false, pattern.matches?('a'))
+    assert_equal(false, pattern.matches?('ab'))
+    assert_equal(true, pattern.matches?('abc'))
+    assert_equal(false, pattern.matches?('abcd'))
+  end
 end
 
 class ChooseTest < MiniTest::Test
