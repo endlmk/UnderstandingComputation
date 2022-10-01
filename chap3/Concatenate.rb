@@ -18,10 +18,10 @@ class Concatenate < Struct.new(:first, :second)
     extra_rules = create_connect_rules(first_nfa_design, second_nfa_design)
     rules = first_nfa_design.rulebook.rules + second_nfa_design.rulebook.rules + extra_rules
 
-    NFADesign.new(first_nfa_design.current_state, second_nfa_design.accept_states, NFARulebook.new(rules))
+    NFADesign.new(first_nfa_design.start_state, second_nfa_design.accept_states, NFARulebook.new(rules))
   end
 
   def create_connect_rules(first_nfa_design, second_nfa_design)
-    first_nfa_design.accept_states.map { |s| FARule.new(s, nil, second_nfa_design.current_state) }
+    first_nfa_design.accept_states.map { |s| FARule.new(s, nil, second_nfa_design.start_state) }
   end
 end

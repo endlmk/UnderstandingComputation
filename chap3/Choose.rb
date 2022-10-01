@@ -28,6 +28,6 @@ class Choose < Struct.new(:first, :second)
   end
 
   def connect_starts_by_free_move(first, second, start)
-    [FARule.new(start, nil, first.current_state), FARule.new(start, nil, second.current_state)]
+    [FARule.new(start, nil, first.start_state), FARule.new(start, nil, second.start_state)]
   end
 end
