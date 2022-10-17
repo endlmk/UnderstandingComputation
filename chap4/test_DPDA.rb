@@ -4,6 +4,7 @@ require_relative('PDARule')
 require_relative('PDAConfiguration')
 require_relative('DPDARulebook')
 require_relative('DPDA')
+require_relative('DPDADesign')
 
 class DPDARulebookTest < MiniTest::Test
   def setup
@@ -55,5 +56,20 @@ class DPDATest < MiniTest::Test
     @dpda.read_string('))()')
     assert_equal(true, @dpda.accepting?)
     assert_equal(PDAConfiguration.new(1, Stack.new(['$'])), @dpda.current_configuration)
+  end
+end
+
+class DPDADesignTest < MiniTest::Test
+  def test_文字列をチェックできる
+    rulebook = DPDARulebook.new([
+        PDARule.new(1, '(', 2, '$', ['b', '$']),
+        PDARule.new(2, '(', 2, 'b', ['b', 'b']),
+        PDARule.new(2, ')', 2, 'b', []),
+        PDARule.new(2, nil, 1, '$', ['$'])
+    ])
+    dpda_design = DPDADesign.new(1, '$', [1], rulebook)
+    assert_equal(true, dpda_design.accepts?('(((((((((())))))))))'))
+    assert_equal(true, dpda_design.accepts?('()(())((()))(()(()))'))
+    assert_equal(false, dpda_design.accepts?('(()(()(()()(()()))()'))
   end
 end
