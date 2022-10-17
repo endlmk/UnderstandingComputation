@@ -57,19 +57,33 @@ class DPDATest < MiniTest::Test
     assert_equal(true, @dpda.accepting?)
     assert_equal(PDAConfiguration.new(1, Stack.new(['$'])), @dpda.current_configuration)
   end
+
+  def test_行き詰まり状態になる
+    @dpda.read_string('())')
+    assert_equal(Stack.new(['$']), @dpda.current_configuration.stack)
+    assert_equal(false, @dpda.accepting?)
+    assert_equal(true, @dpda.stuck?)
+  end
 end
 
 class DPDADesignTest < MiniTest::Test
-  def test_文字列をチェックできる
+  def setup
     rulebook = DPDARulebook.new([
         PDARule.new(1, '(', 2, '$', ['b', '$']),
         PDARule.new(2, '(', 2, 'b', ['b', 'b']),
         PDARule.new(2, ')', 2, 'b', []),
         PDARule.new(2, nil, 1, '$', ['$'])
     ])
-    dpda_design = DPDADesign.new(1, '$', [1], rulebook)
-    assert_equal(true, dpda_design.accepts?('(((((((((())))))))))'))
-    assert_equal(true, dpda_design.accepts?('()(())((()))(()(()))'))
-    assert_equal(false, dpda_design.accepts?('(()(()(()()(()()))()'))
+    @dpda_design = DPDADesign.new(1, '$', [1], rulebook)
+  end
+
+  def test_文字列をチェックできる
+    assert_equal(true, @dpda_design.accepts?('(((((((((())))))))))'))
+    assert_equal(true, @dpda_design.accepts?('()(())((()))(()(()))'))
+    assert_equal(false, @dpda_design.accepts?('(()(()(()()(()()))()'))
+  end
+
+  def test_行き詰まり状態は受理しない
+    assert_equal(false, @dpda_design.accepts?('())'))
   end
 end
