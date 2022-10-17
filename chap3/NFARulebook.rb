@@ -15,7 +15,7 @@ class NFARulebook < Struct.new(:rules)
     if free_move_states.subset?(states)
       states
     else
-      follow_free_move(states |free_move_states)
+      follow_free_move(states | free_move_states)
     end
   end
 

@@ -10,4 +10,8 @@ class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
   def read_character(character)
     self.current_configuration = rulebook.next_configuration(current_configuration, character)
   end
+
+  def current_configuration
+    rulebook.follow_free_moves(super)
+  end
 end
