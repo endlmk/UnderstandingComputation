@@ -9,12 +9,15 @@ class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
   end
 
   def read_character(character)
-    self.current_configuration =
-      if rulebook.applies_to?(current_configuration, character)
-        rulebook.next_configuration(current_configuration, character)
-      else
-        current_configuration.stuck
-      end
+    self.current_configuration = next_configuration(character)
+  end
+
+  def next_configuration(character)
+    if rulebook.applies_to?(current_configuration, character)
+      rulebook.next_configuration(current_configuration, character)
+    else
+      current_configuration.stuck
+    end
   end
 
   def current_configuration
