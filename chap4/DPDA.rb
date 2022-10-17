@@ -5,7 +5,7 @@ class DPDA < Struct.new(:current_configuration, :accept_states, :rulebook)
   end
 
   def read_string(str)
-    str.chars.each { |character| read_character(character) }
+    str.chars.each { |character| read_character(character) unless stuck? }
   end
 
   def read_character(character)

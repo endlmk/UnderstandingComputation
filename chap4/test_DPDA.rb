@@ -63,6 +63,8 @@ class DPDATest < MiniTest::Test
     assert_equal(Stack.new(['$']), @dpda.current_configuration.stack)
     assert_equal(false, @dpda.accepting?)
     assert_equal(true, @dpda.stuck?)
+    @dpda.read_string('())')
+    assert_equal(true, @dpda.stuck?)
   end
 end
 
