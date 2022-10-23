@@ -5,6 +5,7 @@ require_relative('Stack')
 require_relative('PDARule')
 require_relative('PDAConfiguration')
 require_relative('NPDA')
+require_relative('NPDADesign')
 
 class NPDARulebookTest < MiniTest::Test
   def setup
@@ -86,5 +87,31 @@ class NPDATest < MiniTest::Test
                      PDAConfiguration.new(2, Stack.new(['a', 'b', 'b', 'a', '$'])),
                      PDAConfiguration.new(3, Stack.new(['$']))],
                  @npda.current_configurations)
+  end
+end
+
+class NPDADesignTest < MiniTest::Test
+  def setup
+    @rulebook = NPDARulebook.new([
+      PDARule.new(1, 'a', 1, '$', ['a', '$']),
+      PDARule.new(1, 'a', 1, 'a', ['a', 'a']),
+      PDARule.new(1, 'a', 1, 'b', ['a', 'b']),
+      PDARule.new(1, 'b', 1, '$', ['b', '$']),
+      PDARule.new(1, 'b', 1, 'a', ['b', 'a']),
+      PDARule.new(1, 'b', 1, 'b', ['b', 'b']),
+      PDARule.new(1, nil, 2, '$', ['$']),
+      PDARule.new(1, nil, 2, 'a', ['a']),
+      PDARule.new(1, nil, 2, 'b', ['b']),
+      PDARule.new(2, 'a', 2, 'a', []),
+      PDARule.new(2, 'b', 2, 'b', []),
+      PDARule.new(2, nil, 3, '$', ['$'])
+      ])
+  end
+  def test_NPDADesignで初期状態から入力を与えられる
+    npda_design = NPDADesign.new(1, '$', [3], @rulebook)
+    assert_equal(true, npda_design.accepts?('abba'))
+    assert_equal(true, npda_design.accepts?('babbaabbab'))
+    assert_equal(false, npda_design.accepts?('abb'))
+    assert_equal(false, npda_design.accepts?('baabaa'))
   end
 end
