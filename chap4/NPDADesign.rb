@@ -1,4 +1,6 @@
+require('set')
 require_relative('PDAConfiguration')
+require_relative('Stack')
 require_relative('NPDA')
 
 class NPDADesign < Struct.new(:start_state, :bottom_character, :accept_states, :rulebook)
