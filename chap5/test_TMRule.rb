@@ -11,4 +11,12 @@ class TapeTest < MiniTest::Test
     assert_equal(false, rule.applies_to?(TMConfiguration.new(1, Tape.new([], '1', [], '_'))))
     assert_equal(false, rule.applies_to?(TMConfiguration.new(2, Tape.new([], '0', [], '_'))))
   end
+
+  def test_ルールが次のTMConfigurationを返す
+    rule = TMRule.new(1, '0', 2, '1', :right)
+    assert_equal(
+      TMConfiguration.new(2, Tape.new(['1'], '_', [], '_')),
+      rule.follow(TMConfiguration.new(1, Tape.new([], '0', [], '_')))
+    )
+  end
 end
