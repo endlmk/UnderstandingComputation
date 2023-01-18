@@ -10,6 +10,10 @@ class DTM < Struct.new(:current_configuration, :accept_states, :rulebook)
   end
 
   def run
-    step until accepting?
+    step until accepting? || stuck?
+  end
+
+  def stuck?
+    !accepting? && !rulebook.applies_to?(current_configuration)
   end
 end
