@@ -12,6 +12,6 @@ class Tape < Struct.new(:left, :middle, :right, :blank)
   end
 
   def move_head_right
-    Tape.new(left + [middle], right.first || blank, right[0..-2], blank)
+    Tape.new(left + [middle], right.first || blank, right.drop(1), blank)
   end
 end
