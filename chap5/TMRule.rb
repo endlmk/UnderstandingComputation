@@ -1,4 +1,5 @@
 require_relative('TMConfiguration')
+require_relative('Tape')
 
 class TMRule < Struct.new(:state, :character, :next_state, :write_character, :direction)
   def applies_to?(configuration)

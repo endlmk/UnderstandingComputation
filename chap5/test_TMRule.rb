@@ -1,6 +1,4 @@
 require('minitest/autorun')
-require_relative('Tape')
-require_relative('TMConfiguration')
 require_relative('TMRule')
 
 class TapeTest < MiniTest::Test
