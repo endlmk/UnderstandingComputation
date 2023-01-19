@@ -135,3 +135,35 @@ class DTMTest < MiniTest::Test
     )
   end
 end
+
+class DTMInternalStorageTest < MiniTest::Test
+  def test_内部ストレージを持つDTM
+    rulebook = DTMRulebook.new([
+      TMRule.new(1, 'a', 2, 'a', :right),
+      TMRule.new(1, 'b', 3, 'b', :right),
+      TMRule.new(1, 'c', 4, 'c', :right),
+
+      TMRule.new(2, 'a', 2, 'a', :right),
+      TMRule.new(2, 'b', 2, 'b', :right),
+      TMRule.new(2, 'c', 2, 'c', :right),
+      TMRule.new(2, '_', 5, 'a', :right),
+      
+      TMRule.new(3, 'a', 3, 'a', :right),
+      TMRule.new(3, 'b', 3, 'b', :right),
+      TMRule.new(3, 'c', 3, 'c', :right),
+      TMRule.new(3, '_', 5, 'b', :right),
+      
+      TMRule.new(4, 'a', 4, 'a', :right),
+      TMRule.new(4, 'b', 4, 'b', :right),
+      TMRule.new(4, 'c', 4, 'c', :right),
+      TMRule.new(4, '_', 5, 'b', :right),
+    ])
+
+    tape = Tape.new([], 'b', ['c', 'b', 'c', 'a'], '_')
+
+    dtm = DTM.new(TMConfiguration.new(1, tape), [5], rulebook)
+    dtm.run
+
+    assert_equal(Tape.new(['b', 'c', 'b', 'c', 'a', 'b'], '_', [], '_'), dtm.current_configuration.tape)
+  end
+end
