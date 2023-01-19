@@ -167,3 +167,37 @@ class DTMInternalStorageTest < MiniTest::Test
     assert_equal(Tape.new(['b', 'c', 'b', 'c', 'a', 'b'], '_', [], '_'), dtm.current_configuration.tape)
   end
 end
+
+class DTMCombineTest < MiniTest::Test
+  def test_機械の状態と規則を複数つなげたDTM
+    def incremenet_rules(start_state, return_state)
+      incrementing = start_state
+      finishing = Object.new
+      finished = return_state
+
+      [
+        TMRule.new(incrementing, '0', finishing, '1', :right),
+        TMRule.new(incrementing, '1', incrementing, '0', :left),
+        TMRule.new(incrementing, '_', finishing, '1', :right),
+        TMRule.new(finishing, '0', finishing, '0', :right),
+        TMRule.new(finishing, '1', finishing, '1', :right),
+        TMRule.new(finishing, '_', finished, '_', :left),
+      ]
+    end
+    
+    add_zero, add_one, add_two, add_three = 0, 1, 2, 3
+    rulebook = DTMRulebook.new(
+      incremenet_rules(add_zero, add_one) +
+      incremenet_rules(add_one, add_two) +
+      incremenet_rules(add_two, add_three)
+    )
+    assert_equal(18, rulebook.rules.length)
+
+    tape = Tape.new(['1', '0', '1'], '1', [], '_')
+    dtm = DTM.new(TMConfiguration.new(add_zero, tape), [add_three], rulebook)
+    
+    dtm.run
+
+    assert_equal(Tape.new(['1', '1', '1'], '0', ['_'], '_'), dtm.current_configuration.tape)
+  end
+end
