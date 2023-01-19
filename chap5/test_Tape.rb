@@ -17,6 +17,12 @@ class TapeTest < MiniTest::Test
     assert_equal(['1', '0', '1', '1'], tape.move_head_right.left)
     assert_equal('_', tape.move_head_right.middle)
     assert_equal([], tape.move_head_right.right)
+
+    tape1 = Tape.new(['1', '0', '1'], '1', ['0', '1'], '_')
+
+    assert_equal(['1', '0', '1', '1'], tape1.move_head_right.left)
+    assert_equal('0', tape1.move_head_right.middle)
+    assert_equal(['1'], tape1.move_head_right.right)
   end
 
   def test_ヘッドの下に書き込める
