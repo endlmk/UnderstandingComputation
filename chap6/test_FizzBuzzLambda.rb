@@ -11,4 +11,14 @@ class FizzBuzzLambdaTest < MiniTest::Test
     assert_equal(15, to_integer(FIFTEEN))
     assert_equal(100, to_integer(HUNDRED))
   end
+
+  def test_bool値を表示できる
+    assert_equal(true, to_boolean(TRUE))
+    assert_equal(false, to_boolean(FALSE))
+  end
+
+  def test_ifを処理できる
+    assert_equal('happy', IF[TRUE]['happy']['sad'])
+    assert_equal('sad', IF[FALSE]['happy']['sad'])
+  end
 end
