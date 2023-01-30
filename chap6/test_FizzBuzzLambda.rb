@@ -26,4 +26,10 @@ class FizzBuzzLambdaTest < MiniTest::Test
     assert_equal(true, to_boolean(IS_ZERO[ZERO]))
     assert_equal(false, to_boolean(IS_ZERO[ONE]))
   end
+
+  def test_ペアを処理できる
+    my_pair = PAIR[THREE][FIVE]
+    assert_equal(3, to_integer(LEFT[my_pair]))
+    assert_equal(5, to_integer(RIGHT[my_pair]))
+  end
 end

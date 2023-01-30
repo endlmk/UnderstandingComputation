@@ -16,6 +16,10 @@ IF = ->(b) { b }
 
 IS_ZERO = ->(n) { n[->(_x) { FALSE }][TRUE] }
 
+PAIR = ->(x) { ->(y) { ->(f) { f[x][y] } } }
+LEFT = ->(p) { p[->(x) { ->(_y) { x } }] }
+RIGHT = ->(p) { p[->(_x) { ->(y) { y } }] }
+
 def to_integer(proc)
   proc[->(n) { n + 1 }][0]
 end
