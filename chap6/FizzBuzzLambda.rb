@@ -14,6 +14,8 @@ TRUE = ->(x) { ->(_y) { x } }
 FALSE = ->(_x) { ->(y) { y } }
 IF = ->(b) { b }
 
+IS_ZERO = ->(n) { n[->(_x) { FALSE }][TRUE] }
+
 def to_integer(proc)
   proc[->(n) { n + 1 }][0]
 end

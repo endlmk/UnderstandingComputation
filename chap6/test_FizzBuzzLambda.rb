@@ -21,4 +21,9 @@ class FizzBuzzLambdaTest < MiniTest::Test
     assert_equal('happy', IF[TRUE]['happy']['sad'])
     assert_equal('sad', IF[FALSE]['happy']['sad'])
   end
+
+  def test_述語を処理できる
+    assert_equal(true, to_boolean(IS_ZERO[ZERO]))
+    assert_equal(false, to_boolean(IS_ZERO[ONE]))
+  end
 end
