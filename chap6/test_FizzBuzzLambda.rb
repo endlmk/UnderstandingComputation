@@ -32,4 +32,26 @@ class FizzBuzzLambdaTest < MiniTest::Test
     assert_equal(3, to_integer(LEFT[my_pair]))
     assert_equal(5, to_integer(RIGHT[my_pair]))
   end
+
+  def test_数値演算できる
+    assert_equal(1, to_integer(INCREMENT[ZERO]))
+
+    assert_equal(4, to_integer(DECREMENT[FIVE]))
+    assert_equal(14, to_integer(DECREMENT[FIFTEEN]))
+    assert_equal(99, to_integer(DECREMENT[HUNDRED]))
+    assert_equal(0, to_integer(DECREMENT[ZERO]))
+
+    assert_equal(6, to_integer(ADD[ONE][FIVE]))
+    assert_equal(8, to_integer(ADD[THREE][FIVE]))
+    assert_equal(3, to_integer(SUBTRACT[FIVE][TWO]))
+    assert_equal(15, to_integer(MULTIPLY[THREE][FIVE]))
+    assert_equal(8, to_integer(POWER[TWO][THREE]))
+
+    assert_equal(true, to_boolean(IS_LESS_OR_EQUAL[ONE][TWO]))
+    assert_equal(true, to_boolean(IS_LESS_OR_EQUAL[TWO][TWO]))
+    assert_equal(false, to_boolean(IS_LESS_OR_EQUAL[THREE][TWO]))
+
+    assert_equal(1, to_integer(MOD[THREE][TWO]))
+    assert_equal(2, to_integer(MOD[POWER[THREE][THREE]][ADD[THREE][TWO]]))
+  end
 end
