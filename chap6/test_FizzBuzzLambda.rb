@@ -54,4 +54,28 @@ class FizzBuzzLambdaTest < MiniTest::Test
     assert_equal(1, to_integer(MOD[THREE][TWO]))
     assert_equal(2, to_integer(MOD[POWER[THREE][THREE]][ADD[THREE][TWO]]))
   end
+
+  def test_リストを扱える
+    my_list = UNSHIFT[UNSHIFT[UNSHIFT[EMPTY][THREE]][TWO]][ONE]
+    assert_equal(1, to_integer(FIRST[my_list]))
+    assert_equal(2, to_integer(FIRST[REST[my_list]]))
+    assert_equal(3, to_integer(FIRST[REST[REST[my_list]]]))
+    assert_equal(false, to_boolean(IS_EMPTY[my_list]))
+    assert_equal(true, to_boolean(IS_EMPTY[EMPTY]))
+
+    assert_equal([1, 2, 3], to_array(my_list).map { |p| to_integer(p) })
+  end
+
+  def test_rangeを扱える
+    my_range = RANGE[ONE][FIVE]
+    assert_equal([1, 2, 3, 4, 5], to_array(my_range).map { |p| to_integer(p) })
+  end
+
+  def test_mapを扱える
+    assert_equal(15, to_integer(FOLD[RANGE[ONE][FIVE]][ZERO][ADD]))
+    assert_equal(120, to_integer(FOLD[RANGE[ONE][FIVE]][ONE][MULTIPLY]))
+
+    my_list = MAP[RANGE[ONE][FIVE]][INCREMENT]
+    assert_equal([2, 3, 4, 5, 6], to_array(my_list).map {|p| to_integer(p)})
+  end
 end
