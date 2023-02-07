@@ -76,6 +76,36 @@ class FizzBuzzLambdaTest < MiniTest::Test
     assert_equal(120, to_integer(FOLD[RANGE[ONE][FIVE]][ONE][MULTIPLY]))
 
     my_list = MAP[RANGE[ONE][FIVE]][INCREMENT]
-    assert_equal([2, 3, 4, 5, 6], to_array(my_list).map {|p| to_integer(p)})
+    assert_equal([2, 3, 4, 5, 6], to_array(my_list).map { |p| to_integer(p) })
+  end
+
+  def test_文字列を扱える
+    assert_equal('z', to_char(ZED))
+    assert_equal('FizzBuzz', to_string(FIZZBUZZ))
+
+    assert_equal(2, to_integer(DIV[TEN][FIVE]))
+    assert_equal([5, 3, 2], to_array(PUSH[PUSH[PUSH[EMPTY][FIVE]][THREE]][TWO]).map { |p| to_integer(p) })
+    assert_equal([5], to_array(TO_DIGITS[FIVE]).map { |p| to_integer(p) })
+    assert_equal([1, 2, 5], to_array(TO_DIGITS[POWER[FIVE][THREE]]).map { |p| to_integer(p) })
+
+    assert_equal('5', to_string(TO_DIGITS[FIVE]))
+    assert_equal('125', to_string(TO_DIGITS[POWER[FIVE][THREE]]))
+  end
+
+  def test_FizzBuzzが動作する
+    solution = MAP[RANGE[ONE][FIFTEEN]][lambda { |n|
+      IF[IS_ZERO[MOD[n][FIFTEEN]]][
+        FIZZBUZZ
+      ][IF[IS_ZERO[MOD[n][THREE]]][
+        FIZZ
+      ][IF[IS_ZERO[MOD[n][FIVE]]][
+        BUZZ
+      ][
+        TO_DIGITS[n]
+      ]]]
+    }]
+    assert_equal(%w[1 2 Fizz 4 Buzz Fizz 7 8 Fizz Buzz 11 Fizz 13 14 FizzBuzz], to_array(solution).map do |p|
+                                                                                  to_string(p)
+                                                                                end)
   end
 end
