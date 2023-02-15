@@ -7,6 +7,10 @@ class DoNothing
     "<<#{self}>>"
   end
 
+  def ==(other)
+    other.instance_of?(DoNothing)
+  end
+
   def reducible?
     false
   end
