@@ -8,6 +8,9 @@ require_relative 'If'
 require_relative 'Boolean'
 require_relative 'DoNothing'
 require_relative 'Sequence'
+require_relative 'LessThan'
+require_relative 'Multiply'
+require_relative 'While'
 
 class TestStatement < MiniTest::Test
   def test_代入文を簡約できる
@@ -105,6 +108,39 @@ class TestStatement < MiniTest::Test
              'y = 2 + 3, {:x=><<2>>}' << '\n' \
              'y = 5, {:x=><<2>>}' << '\n' \
              'do-nothing, {:x=><<2>>, :y=><<5>>}'
+    assert_equal(result, vm.run)
+  end
+
+  def test_While文を簡約できる
+    vm = Machine.new(
+      While.new(
+        LessThan.new(Variable.new(:x), Number.new(5)),
+        Assign.new(:x, Multiply.new(Variable.new(:x), Number.new(3)))
+      ),
+      { x: Number.new(1) }
+    )
+
+    result = 'while (x < 5) { x = x * 3 }, {:x=><<1>>}' << '\n' \
+             'if (x < 5) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<1>>}' << '\n' \
+             'if (1 < 5) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<1>>}' << '\n' \
+             'if (true) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<1>>}' << '\n' \
+             'x = x * 3; while (x < 5) { x = x * 3 }, {:x=><<1>>}' << '\n' \
+             'x = 1 * 3; while (x < 5) { x = x * 3 }, {:x=><<1>>}' << '\n' \
+             'x = 3; while (x < 5) { x = x * 3 }, {:x=><<1>>}' << '\n' \
+             'do-nothing; while (x < 5) { x = x * 3 }, {:x=><<3>>}' << '\n' \
+             'while (x < 5) { x = x * 3 }, {:x=><<3>>}' << '\n' \
+             'if (x < 5) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<3>>}' << '\n' \
+             'if (3 < 5) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<3>>}' << '\n' \
+             'if (true) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<3>>}' << '\n' \
+             'x = x * 3; while (x < 5) { x = x * 3 }, {:x=><<3>>}' << '\n' \
+             'x = 3 * 3; while (x < 5) { x = x * 3 }, {:x=><<3>>}' << '\n' \
+             'x = 9; while (x < 5) { x = x * 3 }, {:x=><<3>>}' << '\n' \
+             'do-nothing; while (x < 5) { x = x * 3 }, {:x=><<9>>}' << '\n' \
+             'while (x < 5) { x = x * 3 }, {:x=><<9>>}' << '\n' \
+             'if (x < 5) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<9>>}' << '\n' \
+             'if (9 < 5) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<9>>}' << '\n' \
+             'if (false) { x = x * 3; while (x < 5) { x = x * 3 } } else { do-nothing }, {:x=><<9>>}' << '\n' \
+             'do-nothing, {:x=><<9>>}'
     assert_equal(result, vm.run)
   end
 end
