@@ -7,6 +7,7 @@ require_relative 'Machine'
 require_relative 'If'
 require_relative 'Boolean'
 require_relative 'DoNothing'
+require_relative 'Sequence'
 
 class TestStatement < MiniTest::Test
   def test_代入文を簡約できる
@@ -85,6 +86,25 @@ class TestStatement < MiniTest::Test
              'if (false) { y = 1 } else { do-nothing }, {:x=><<false>>}' << '\n' \
              'do-nothing, {:x=><<false>>}'
 
+    assert_equal(result, vm.run)
+  end
+
+  def test_シーケンス文を簡約できる
+    vm = Machine.new(
+      Sequence.new(
+        Assign.new(:x, Add.new(Number.new(1), Number.new(1))),
+        Assign.new(:y, Add.new(Variable.new(:x), Number.new(3)))
+      ),
+      {}
+    )
+
+    result = 'x = 1 + 1; y = x + 3, {}' << '\n' \
+             'x = 2; y = x + 3, {}' << '\n' \
+             'do-nothing; y = x + 3, {:x=><<2>>}' << '\n' \
+             'y = x + 3, {:x=><<2>>}' << '\n' \
+             'y = 2 + 3, {:x=><<2>>}' << '\n' \
+             'y = 5, {:x=><<2>>}' << '\n' \
+             'do-nothing, {:x=><<2>>, :y=><<5>>}'
     assert_equal(result, vm.run)
   end
 end
