@@ -49,7 +49,10 @@ class TestAdd < MiniTest::Test
       {}
     )
 
-    result = '1 * 2 + 3 * 4' << '\n' << '2 + 3 * 4' << '\n' << '2 + 12' << '\n' << '14'
+    result = '1 * 2 + 3 * 4, {}' << '\n' \
+             '2 + 3 * 4, {}' << '\n' \
+             '2 + 12, {}' << '\n' \
+             '14, {}'
     assert_equal(result, vm.run)
   end
 
@@ -59,7 +62,9 @@ class TestAdd < MiniTest::Test
       {}
     )
 
-    result = '5 < 2 + 2' << '\n' << '5 < 4' << '\n' << 'false'
+    result = '5 < 2 + 2, {}' << '\n' <<
+             '5 < 4, {}' << '\n' <<
+             'false, {}'
     assert_equal(result, vm.run)
   end
 
@@ -69,7 +74,10 @@ class TestAdd < MiniTest::Test
       { x: Number.new(3), y: Number.new(4) }
     )
 
-    result = 'x + y' << '\n' << '3 + y' << '\n' << '3 + 4' << '\n' << '7'
+    result = 'x + y, {:x=><<3>>, :y=><<4>>}' << '\n' \
+             '3 + y, {:x=><<3>>, :y=><<4>>}' << '\n' \
+             '3 + 4, {:x=><<3>>, :y=><<4>>}' << '\n' \
+             '7, {:x=><<3>>, :y=><<4>>}'
     assert_equal(result, vm.run)
   end
 end

@@ -3,6 +3,7 @@ require_relative 'Assign'
 require_relative 'Number'
 require_relative 'Add'
 require_relative 'Variable'
+require_relative 'Machine'
 
 class TestStatement < MiniTest::Test
   def test_代入文を簡約できる
@@ -35,5 +36,17 @@ class TestStatement < MiniTest::Test
     assert_equal('<<do-nothing>>', st.inspect)
     assert_equal('{:x=><<3>>}', env.inspect)
     assert_equal(false, st.reducible?)
+  end
+
+  def test_仮想機械で代入文を扱える
+    vm = Machine.new(Assign.new(:x, Add.new(Variable.new(:x), Number.new(1))),
+                     { x: Number.new(2) })
+
+    result = 'x = x + 1, {:x=><<2>>}' << '\n' \
+             'x = 2 + 1, {:x=><<2>>}' << '\n' \
+             'x = 3, {:x=><<2>>}' << '\n' \
+             'do-nothing, {:x=><<3>>}'
+
+    assert_equal(result, vm.run)
   end
 end
