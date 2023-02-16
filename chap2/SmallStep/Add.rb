@@ -1,25 +1,28 @@
 require_relative 'Number'
 
-class Add < Struct.new(:left, :right)
-  def to_s
-    "#{left} + #{right}"
-  end
+module SmallStep
+  class Add < Struct.new(:left, :right)
+    include SmallStep
+    def to_s
+      "#{left} + #{right}"
+    end
 
-  def inspect
-    "<<#{self}>>"
-  end
+    def inspect
+      "<<#{self}>>"
+    end
 
-  def reducible?
-    true
-  end
+    def reducible?
+      true
+    end
 
-  def reduce(environment)
-    if left.reducible?
-      Add.new(left.reduce(environment), right)
-    elsif right.reducible?
-      Add.new(left, right.reduce(environment))
-    else
-      Number.new(left.value + right.value)
+    def reduce(environment)
+      if left.reducible?
+        Add.new(left.reduce(environment), right)
+      elsif right.reducible?
+        Add.new(left, right.reduce(environment))
+      else
+        Number.new(left.value + right.value)
+      end
     end
   end
 end

@@ -13,6 +13,7 @@ require_relative 'Multiply'
 require_relative 'While'
 
 class TestStatement < MiniTest::Test
+  include SmallStep
   def test_代入文を簡約できる
     st = Assign.new(:x, Number.new(1))
     env = {}

@@ -1,13 +1,16 @@
-class Machine < Struct.new(:expression, :environment)
-  def run
-    s = ''
-    while expression.reducible?
+module SmallStep
+  class Machine < Struct.new(:expression, :environment)
+    include SmallStep
+    def run
+      s = ''
+      while expression.reducible?
+        s << "#{expression}, #{environment}"
+        s += '\n'
+        self.expression, env = expression.reduce(environment)
+        self.environment = env unless env.nil?
+      end
       s << "#{expression}, #{environment}"
-      s += '\n'
-      self.expression, env = expression.reduce(environment)
-      self.environment = env unless env.nil?
+      s
     end
-    s << "#{expression}, #{environment}"
-    s
   end
 end

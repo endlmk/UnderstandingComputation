@@ -1,13 +1,16 @@
-class Number < Struct.new(:value)
-  def to_s
-    value.to_s
-  end
+module SmallStep
+  class Number < Struct.new(:value)
+    include SmallStep
+    def to_s
+      value.to_s
+    end
 
-  def inspect
-    "<<#{self}>>"
-  end
+    def inspect
+      "<<#{self}>>"
+    end
 
-  def reducible?
-    false
+    def reducible?
+      false
+    end
   end
 end

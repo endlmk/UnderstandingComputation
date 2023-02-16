@@ -2,23 +2,26 @@ require_relative 'If'
 require_relative 'Sequence'
 require_relative 'DoNothing'
 
-class While < Struct.new(:condition, :body)
-  def to_s
-    "while (#{condition}) { #{body} }"
-  end
+module SmallStep
+  class While < Struct.new(:condition, :body)
+    include SmallStep
+    def to_s
+      "while (#{condition}) { #{body} }"
+    end
 
-  def inspect
-    "<<#{self}>>"
-  end
+    def inspect
+      "<<#{self}>>"
+    end
 
-  def reducible?
-    true
-  end
+    def reducible?
+      true
+    end
 
-  def reduce(environment)
-    [If.new(condition,
-            Sequence.new(body, While.new(condition, body)),
-            DoNothing.new),
-     environment]
+    def reduce(environment)
+      [If.new(condition,
+              Sequence.new(body, While.new(condition, body)),
+              DoNothing.new),
+       environment]
+    end
   end
 end

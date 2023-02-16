@@ -1,15 +1,18 @@
 require_relative 'Number'
 
-class Multiply < Struct.new(:left, :right)
-  def to_s
-    "#{left} * #{right}"
-  end
+module BigStep
+  class Multiply < Struct.new(:left, :right)
+    include BigStep
+    def to_s
+      "#{left} * #{right}"
+    end
 
-  def inspect
-    "<<#{self}>>"
-  end
+    def inspect
+      "<<#{self}>>"
+    end
 
-  def evaluate(environment)
-    Number.new(left.evaluate(environment).value * right.evaluate(environment).value)
+    def evaluate(environment)
+      Number.new(left.evaluate(environment).value * right.evaluate(environment).value)
+    end
   end
 end

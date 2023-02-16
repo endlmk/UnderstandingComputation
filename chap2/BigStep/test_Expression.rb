@@ -5,6 +5,7 @@ require_relative 'LessThan'
 require_relative 'Add'
 
 class ExpressionTest < MiniTest::Test
+  include BigStep
   def test_式を評価できる
     assert_equal('<<23>>', Number.new(23).evaluate({}).inspect)
 

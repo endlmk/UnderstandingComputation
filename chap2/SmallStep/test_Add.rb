@@ -7,6 +7,7 @@ require_relative 'LessThan'
 require_relative 'Variable'
 
 class TestAdd < MiniTest::Test
+  include SmallStep
   def test_Addの抽象構文木を作れる
     add = Add.new(
       Multiply.new(Number.new(1), Number.new(2)),
