@@ -2,7 +2,6 @@ require_relative 'DoNothing'
 
 module SmallStep
   class Assign < Struct.new(:name, :expression)
-    include SmallStep
     def to_s
       "#{name} = #{expression}"
     end

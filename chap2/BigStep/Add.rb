@@ -2,7 +2,6 @@ require_relative 'Number'
 
 module BigStep
   class Add < Struct.new(:left, :right)
-    include BigStep
     def to_s
       "#{left} + #{right}"
     end

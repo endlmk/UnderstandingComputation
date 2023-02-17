@@ -1,6 +1,5 @@
 module BigStep
   class DoNothing
-    include BigStep
     def to_s
       'do-nothing'
     end

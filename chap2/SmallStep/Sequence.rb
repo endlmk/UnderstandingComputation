@@ -2,7 +2,6 @@ require_relative 'DoNothing'
 
 module SmallStep
   class Sequence < Struct.new(:first, :second)
-    include SmallStep
     def to_s
       "#{first}; #{second}"
     end

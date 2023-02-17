@@ -1,6 +1,5 @@
 module BigStep
   class Sequence < Struct.new(:first, :second)
-    include BigStep
     def to_s
       "#{first}; #{second}"
     end

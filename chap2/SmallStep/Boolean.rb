@@ -1,6 +1,5 @@
 module SmallStep
   class Boolean < Struct.new(:value)
-    include SmallStep
     def to_s
       value.to_s
     end

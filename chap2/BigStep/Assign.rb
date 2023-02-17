@@ -1,6 +1,5 @@
 module BigStep
   class Assign < Struct.new(:name, :expression)
-    include BigStep
     def to_s
       "#{name} = #{expression}"
     end

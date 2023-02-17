@@ -1,6 +1,5 @@
 module SmallStep
   class Variable < Struct.new(:name)
-    include SmallStep
     def to_s
       name.to_s
     end

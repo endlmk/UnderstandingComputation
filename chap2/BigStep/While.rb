@@ -1,6 +1,5 @@
 module BigStep
   class While < Struct.new(:condition, :body)
-    include BigStep
     def to_s
       "while (#{condition}) { #{body} }"
     end

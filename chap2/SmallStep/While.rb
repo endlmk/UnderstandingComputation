@@ -4,7 +4,6 @@ require_relative 'DoNothing'
 
 module SmallStep
   class While < Struct.new(:condition, :body)
-    include SmallStep
     def to_s
       "while (#{condition}) { #{body} }"
     end

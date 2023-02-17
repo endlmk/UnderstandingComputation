@@ -1,6 +1,5 @@
 module SmallStep
   class Machine < Struct.new(:expression, :environment)
-    include SmallStep
     def run
       s = ''
       while expression.reducible?

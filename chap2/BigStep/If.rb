@@ -2,7 +2,6 @@ require_relative 'Boolean'
 
 module BigStep
   class If < Struct.new(:condition, :consequence, :alternative)
-    include BigStep
     def to_s
       "if (#{condition}) { #{consequence} } else { #{alternative} }"
     end

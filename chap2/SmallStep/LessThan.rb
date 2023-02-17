@@ -2,7 +2,6 @@ require_relative 'Boolean'
 
 module SmallStep
   class LessThan < Struct.new(:left, :right)
-    include SmallStep
     def to_s
       "#{left} < #{right}"
     end

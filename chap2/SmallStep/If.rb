@@ -1,6 +1,5 @@
 module SmallStep
   class If < Struct.new(:condition, :consequence, :alternative)
-    include SmallStep
     def to_s
       "if (#{condition}) { #{consequence} } else { #{alternative} }"
     end

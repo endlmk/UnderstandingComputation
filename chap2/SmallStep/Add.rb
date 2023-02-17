@@ -2,7 +2,6 @@ require_relative 'Number'
 
 module SmallStep
   class Add < Struct.new(:left, :right)
-    include SmallStep
     def to_s
       "#{left} + #{right}"
     end

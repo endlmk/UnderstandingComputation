@@ -1,6 +1,5 @@
 module SmallStep
   class DoNothing
-    include SmallStep
     def to_s
       'do-nothing'
     end
